@@ -1,0 +1,35 @@
+//Code below will help you to send emails to list of people with email Ids present in the excel file. Detailed decription can be seen in the YouTube video at 
+
+function sendEmails() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+
+  var startRow = 2; // First row of data to process
+  var startCol = 1; // First Column of data to process
+  var lastRows = sheet.getLastRow()-1; // Number of rows to process
+  var lastcol = sheet.getLastColumn(); // Number of Column to process
+  
+  var dataRange = sheet.getRange(startRow, startCol, lastRows, lastcol);
+  
+  // Fetch values for each row in the Range.
+  var data = dataRange.getValues();
+  // Logger.log(data);
+  
+  var subject = 'Marks in Programming';
+
+  for (var i in data) {
+    var row = data[i];
+    
+    var emailAddress = row[0]; // First column
+
+    var message = 'Dear '+ row[1]+',\n\n Your Marks in Programming is ' + row[7] + ' out of 100.'; 
+    message = message + '\n\nDistribution of the marks are as follows:\n';
+    message = message + 'You got '+ row[3] +' out of 15 in T1 Exam,\n'
+    message = message + 'You got '+ row[4] +' out of 25 in T2 Exam,\n'
+    message = message + 'You got '+ row[5] +' out of 35 in T3,\n'
+    message = message + 'You got '+ row[6] +' out of 25 in TA,\n'
+    
+    MailApp.sendEmail(emailAddress, subject, message);
+   
+  }
+  
+}
